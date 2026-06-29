@@ -400,6 +400,8 @@
         <td class="num ${pnlCls}">${fmtDollars(t.pnl_dollars)}</td>
         <td class="num green">${fmtPct(t.mfe_pct)}</td>
         <td class="num red">${fmtPct(t.mae_pct)}</td>
+        <td class="num">${fmtFloat(t.abs5_at_fire, 3)}</td>
+        <td class="num">${fmtFloat(t.abs1_at_fire, 3)}</td>
         <td class="num">${fmtDur(t.hold_sec)}</td>
         <td class="tiny">${t.exit_reason || ""}</td>
       </tr>`;
@@ -411,6 +413,8 @@
           <th class="num">Entry $</th><th class="num">Exit $</th>
           <th class="num">P&L %</th><th class="num">P&L $</th>
           <th class="num">MFE</th><th class="num">MAE</th>
+          <th class="num" title="r5m absorption avg at fire (LOW = ripping tape, the spike-regime GO read)">Abs5</th>
+          <th class="num" title="r1m absorption avg at fire">Abs1</th>
           <th class="num">Held</th>
           <th>Reason</th>
         </tr></thead>
