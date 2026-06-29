@@ -461,6 +461,27 @@
     if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
     return s;
   }
+  // 2026-06-29 — David pruned the trade-breakdown export to the columns he
+  // actually reads. These 34 are dropped from BOTH the CSV and XLSX downloads
+  // (the microstructure insti_* block, the claude_* lane fields, the
+  // consensus_* meter, plus redundant direction/route — type+side already
+  // carry that). They stay in state.json / the on-screen table; only the
+  // exports drop them. To re-add a column, delete it from this set.
+  const EXPORT_DROP_COLS = new Set([
+    "direction", "route",
+    "insti_level_price", "insti_level_vol", "insti_level_share",
+    "insti_level_buy_frac", "insti_level_dist_bp", "insti_spread_vs_avg",
+    "insti_spread_roc", "insti_book_bid_sz", "insti_book_ask_sz",
+    "insti_net_delta", "insti_impact_bp_per_1k", "insti_kyles_lambda",
+    "insti_hawkes", "insti_trades_per_sec", "insti_tick_autocorr",
+    "insti_range_bp", "insti_wall_side", "insti_wall_persistence_sec",
+    "insti_wall_flips_15m", "insti_wall_mode",
+    "claude_story", "claude_entry_mode", "claude_confidence",
+    "claude_exit_thesis", "claude_reason", "claude_latency_ms",
+    "consensus_vwap_slope", "consensus_r3m_absorption_trend",
+    "consensus_n_pos_call", "consensus_n_pos_put", "consensus_vwap_side",
+    "consensus_optlead_side",
+  ]);
   // Union of all keys across flattened trades, preserving first-seen order.
   // Shared by the CSV and XLSX exports so both emit identical columns.
   function flattenAllTrades(trades) {
@@ -469,6 +490,7 @@
     const cols = [];
     for (const r of flats) {
       for (const k of Object.keys(r)) {
+        if (EXPORT_DROP_COLS.has(k)) continue;
         if (!seen.has(k)) { seen.add(k); cols.push(k); }
       }
     }
