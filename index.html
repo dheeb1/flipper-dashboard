@@ -403,6 +403,7 @@
         <td class="num">${fmtFloat(t.abs5_at_fire, 3)}</td>
         <td class="num">${fmtFloat(t.abs1_at_fire, 3)}</td>
         <td class="num" title="${t.regime_go ? 'rexp ' + fmtFloat(t.rexp_at_fire, 2) : ''}">${t.regime_go === "GO" ? '<span style="color:#16a34a">●</span> GO' : t.regime_go === "NO" ? '<span style="color:#9ca3af">●</span> NO' : ''}</td>
+        <td class="num">${t.regime_go_sustained === "GO" ? '<span style="color:#16a34a">●</span> GO' : t.regime_go_sustained === "NO" ? '<span style="color:#9ca3af">●</span> NO' : ''}</td>
         <td class="num">${fmtDur(t.hold_sec)}</td>
         <td class="tiny">${t.exit_reason || ""}</td>
       </tr>`;
@@ -417,6 +418,7 @@
           <th class="num" title="r5m absorption avg at fire (LOW = ripping tape, the spike-regime GO read)">Abs5</th>
           <th class="num" title="r1m absorption avg at fire">Abs1</th>
           <th class="num" title="REGIME at fire (record-only study, gates nothing): GO = range-expansion regime vs the session's own baseline + low absorption (closed-bar, no look-ahead); NO = chop. The 06-29 best-day money was made in GO.">GO</th>
+          <th class="num" title="SUSTAINED GO (record-only study): GO only after the regime has held >=3 consecutive minutes (trailing, no look-ahead) - filters the 1-4 min GO flickers, which the 06-29 sweep showed were net losers. Costs the first 2 min of a real block.">GO&ge;3</th>
           <th class="num">Held</th>
           <th>Reason</th>
         </tr></thead>
